@@ -19,8 +19,7 @@ public class Boid : MonoBehaviour
     public float maxSpeed = 5.0f;
     public float maxForce = 10.0f;
 
-
-    // Use this for initialization
+    
     void Start()
     {
 
@@ -64,14 +63,6 @@ public class Boid : MonoBehaviour
     Vector3 Calculate()
     {
         force = Vector3.zero;
-
-        // Weighted prioritised truncated running sum
-        // 1. Behaviours are weighted
-        // 2. Behaviours are prioritised
-        // 3. Truncated
-        // 4. Running sum
-
-
         foreach (SteeringBehaviour b in behaviours)
         {
             if (b.isActiveAndEnabled)
@@ -90,8 +81,6 @@ public class Boid : MonoBehaviour
         return force;
     }
 
-
-    // Update is called once per frame
     void Update()
     {
         force = Calculate();
