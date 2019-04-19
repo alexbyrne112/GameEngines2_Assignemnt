@@ -60,9 +60,16 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\BulletScript.cs" />
+    <Compile Include="Assets\Russian.cs" />
+    <Compile Include="Assets\Scripts\American1.cs" />
+    <Compile Include="Assets\Scripts\AttackingState.cs" />
     <Compile Include="Assets\Scripts\Boid.cs" />
+    <Compile Include="Assets\Scripts\IState.cs" />
     <Compile Include="Assets\Scripts\MigMove.cs" />
     <Compile Include="Assets\Scripts\Persue.cs" />
+    <Compile Include="Assets\Scripts\SearchState.cs" />
+    <Compile Include="Assets\Scripts\StateMachine.cs" />
     <Compile Include="Assets\Scripts\SteeringBehaviour.cs" />
     <Reference Include="Unity.TextMeshPro.Editor">
       <HintPath>D:/4th Year/Game Design/Semester 2/GE2Assignment/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>

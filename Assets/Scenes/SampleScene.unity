@@ -124,6 +124,21 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 2039208357}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &989111
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 989109}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ad00235b028af614f91c8ad44cb63896, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bulletFromPrefab: {fileID: 2596692691234242382, guid: b5e7d3460ccc2df49a20aacd871b3b3c,
+    type: 3}
+  side: American
 --- !u!114 &989112
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -136,6 +151,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25b36a45cb3989b4981ed294189dfb24, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  behaviours: []
   force: {x: 0, y: 0, z: 0}
   acceleration: {x: 0, y: 0, z: 0}
   velocity: {x: 0, y: 0, z: 0}
@@ -153,13 +169,23 @@ MonoBehaviour:
   m_GameObject: {fileID: 989109}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dbb10d3bf2c19964e8a1e8a487fb2c1d, type: 3}
+  m_Script: {fileID: 11500000, guid: 455b30b08426f534098b06f41bc083a1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  weight: 1
-  force: {x: 0, y: 0, z: 0}
-  boid: {fileID: 0}
-  target: {fileID: 1035762434}
+  updatesPerSecond: 5
+--- !u!65 &989116
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 989109}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.4, y: 0.3, z: 1.8}
+  m_Center: {x: 0, y: 0.05, z: 0}
 --- !u!1 &170076733
 GameObject:
   m_ObjectHideFlags: 0
@@ -329,6 +355,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25b36a45cb3989b4981ed294189dfb24, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  behaviours: []
   force: {x: 0, y: 0, z: 0}
   acceleration: {x: 0, y: 0, z: 0}
   velocity: {x: 0, y: 0, z: 0}
@@ -349,7 +376,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d448cff12b655b748abee6e4b4561921, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  weight: 1
+  weight: 1.1
   force: {x: 0, y: 0, z: 0}
   boid: {fileID: 0}
   frequency: 0.05
@@ -358,6 +385,56 @@ MonoBehaviour:
   amplitude: 180
   distance: 60
   axis: 0
+--- !u!114 &1035762438
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1035762433}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d448cff12b655b748abee6e4b4561921, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  weight: 1.1
+  force: {x: 0, y: 0, z: 0}
+  boid: {fileID: 0}
+  frequency: 0.05
+  radius: 40
+  theta: 0
+  amplitude: 180
+  distance: 60
+  axis: 1
+--- !u!65 &1035762440
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1035762433}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 12, y: 3, z: 23}
+  m_Center: {x: 0, y: 3, z: -1}
+--- !u!114 &1035762441
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1035762433}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 806ce946fe724e043a60de19f484a8b5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  health: 100
+  bulletDamage: 10
+  deathRotationSpeed: 15
+  dead: 0
 --- !u!1001 &1572945563
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -369,6 +446,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Su-34
+      objectReference: {fileID: 0}
+    - target: {fileID: 5735215785383433968, guid: 19e098fba2c135341bd0fec4810877c1,
+        type: 3}
+      propertyPath: m_TagString
+      value: Russian
+      objectReference: {fileID: 0}
+    - target: {fileID: 5735215785383433968, guid: 19e098fba2c135341bd0fec4810877c1,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 1365858672142657613, guid: 19e098fba2c135341bd0fec4810877c1,
         type: 3}
@@ -438,6 +525,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: F-14 Tomcat
+      objectReference: {fileID: 0}
+    - target: {fileID: 6173657535776944410, guid: 9f9297944c6fd77488de6a9b13ea1b0a,
+        type: 3}
+      propertyPath: m_TagString
+      value: American
       objectReference: {fileID: 0}
     - target: {fileID: 8738635761906986953, guid: 9f9297944c6fd77488de6a9b13ea1b0a,
         type: 3}

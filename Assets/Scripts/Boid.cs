@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Boid : MonoBehaviour
 {
-    List<SteeringBehaviour> behaviours = new List<SteeringBehaviour>();
+    public List<SteeringBehaviour> behaviours = new List<SteeringBehaviour>();
 
     public Vector3 force = Vector3.zero;
     public Vector3 acceleration = Vector3.zero;
@@ -22,7 +22,7 @@ public class Boid : MonoBehaviour
     
     void Start()
     {
-
+        //StartCoroutine(SteeringForces());
         SteeringBehaviour[] behaviours = GetComponents<SteeringBehaviour>();
 
         foreach (SteeringBehaviour b in behaviours)
@@ -98,5 +98,20 @@ public class Boid : MonoBehaviour
             transform.position += velocity * Time.deltaTime;
             velocity *= (1.0f - (damping * Time.deltaTime));
         }
+    }
+
+    System.Collections.IEnumerator SteeringForces()
+    {
+        Debug.Log("hello");
+        SteeringBehaviour[] behaviours = GetComponents<SteeringBehaviour>();
+
+        foreach (SteeringBehaviour b in behaviours)
+        {
+            if (b.isActiveAndEnabled)
+            {
+                this.behaviours.Add(b);
+            }
+        }
+        yield return new WaitForSeconds(1.0f);
     }
 }
