@@ -9,6 +9,7 @@ public class American1 : MonoBehaviour
     //public GameObject america1;
     [SerializeField]
     public GameObject bulletFromPrefab;
+    public GameObject missileFromPrefab;
     public string side;
     // Start is called before the first frame update
     void Start()

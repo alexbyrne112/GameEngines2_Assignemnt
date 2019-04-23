@@ -6,26 +6,32 @@ public class SearchState : State
 {
     private Collider[] colliders;
     American1 american1;
+    Path patrolPath;
+    //Boid b;
+    PathFollow pf;
+    /*
+    public SearchState(GameObject patrolPathGO)
+    {
+        this.patrolPath = patrolPathGO;
+    }*/
 
     public override void Enter()
     {
+        if (owner.gameObject.GetComponent<PathFollow>() != null)
+        {
+            Debug.Log("component");
+            pf.enabled = true;
+        }
+        else
+        {
+            patrolPath = GameObject.FindGameObjectWithTag("AmericanPath").GetComponent<Path>();
+            Debug.Log("No component");
+            pf = owner.gameObject.AddComponent<PathFollow>();
+            pf.path = patrolPath;
+        }
+
         american1 = owner.GetComponent<American1>();
-        MigMove mm1 = owner.gameObject.AddComponent<MigMove>();
-        mm1.weight = 1;
-        mm1.frequency = 0.05f;
-        mm1.radius = 40;
-        mm1.amplitude = 180;
-        mm1.distance = 60;
-        mm1.axis = MigMove.Axis.Vertical;
-
-        MigMove mm2 = owner.gameObject.AddComponent<MigMove>();
-        mm2.weight = 1;
-        mm2.frequency = 0.05f;
-        mm2.radius = 40;
-        mm2.amplitude = 180;
-        mm2.distance = 60;
-        mm2.axis = MigMove.Axis.Horizontal;
-
+        
     }
     public override void Think()
     {
@@ -53,15 +59,25 @@ public class SearchState : State
         if (nearest != null)
         {
             GameObject targetGO = colliders[nearestRef].gameObject;
+            //Dot Product for defend or attack state 
+            if (Vector3.Dot(owner.transform.forward, targetGO.transform.position) > 0)
+            {
+                owner.GetComponent<StateMachine>().ChangeState(new AttackingState(targetGO));
+            }
+            else
+            {
+                //owner.GetComponent<StateMachine>().ChangeState(new DefendingState());
+            }
+            //GameObject targetGO = colliders[nearestRef].gameObject;
             //Boid targetBoid = targetGO.GetComponent<Boid>();
-            owner.GetComponent<StateMachine>().ChangeState(new AttackingState(targetGO));
+            //owner.GetComponent<StateMachine>().ChangeState(new AttackingState(targetGO));
         }
 
 
     }
     public override void Exit()
     {
-
+        pf.enabled = false;
     }
 }
 
