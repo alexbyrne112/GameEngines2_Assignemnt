@@ -8,6 +8,7 @@ TagManager:
   - American
   - Bullet
   - AmericanPath
+  - Missile
   layers:
   - Default
   - TransparentFX

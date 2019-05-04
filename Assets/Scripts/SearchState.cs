@@ -9,42 +9,36 @@ public class SearchState : State
     Path patrolPath;
     //Boid b;
     PathFollow pf;
-    /*
-    public SearchState(GameObject patrolPathGO)
-    {
-        this.patrolPath = patrolPathGO;
-    }*/
-
+    
     public override void Enter()
     {
         if (owner.gameObject.GetComponent<PathFollow>() != null)
         {
-            Debug.Log("component");
             pf.enabled = true;
         }
         else
         {
             patrolPath = GameObject.FindGameObjectWithTag("AmericanPath").GetComponent<Path>();
-            Debug.Log("No component");
             pf = owner.gameObject.AddComponent<PathFollow>();
             pf.path = patrolPath;
         }
-
         american1 = owner.GetComponent<American1>();
         
     }
     public override void Think()
     {
         //Overlap Shpere for detecting other planes
-        colliders = Physics.OverlapSphere(owner.transform.position, 500);
+        colliders = Physics.OverlapSphere(owner.transform.position, 5000);
         Transform nearest = null;
         int nearestRef = 0;
-        float nearDist = 9999f;
+        string collSide;
+        float nearDist = 62500f;
         if(0 < colliders.Length)
         {
             for(int i = 0; i < colliders.Length; i++)
             {
-                if(!colliders[i].CompareTag(american1.side))
+                collSide = colliders[i].gameObject.tag;
+                if (collSide != american1.side)
                 {
                     float thisDist = (owner.transform.position - colliders[i].transform.position).sqrMagnitude;
                     if (thisDist < nearDist)
@@ -59,18 +53,24 @@ public class SearchState : State
         if (nearest != null)
         {
             GameObject targetGO = colliders[nearestRef].gameObject;
-            //Dot Product for defend or attack state 
-            if (Vector3.Dot(owner.transform.forward, targetGO.transform.position) > 0)
+            //Dot Product for defend or attack state check if infront
+            Vector3 toTarget = (targetGO.transform.position - owner.transform.position).normalized;
+
+            Debug.Log(Vector3.Dot(toTarget, owner.transform.forward));
+            if (Vector3.Dot(toTarget, owner.transform.forward) > 0)
             {
-                owner.GetComponent<StateMachine>().ChangeState(new AttackingState(targetGO));
+                if(targetGO.GetComponent<Russian>().health > 0)
+                {
+                    owner.GetComponent<StateMachine>().ChangeState(new AttackingState(targetGO));
+                }
             }
             else
             {
-                //owner.GetComponent<StateMachine>().ChangeState(new DefendingState());
+                if (targetGO.GetComponent<Russian>().health > 0)
+                {
+                    owner.GetComponent<StateMachine>().ChangeState(new DefendingState());
+                }
             }
-            //GameObject targetGO = colliders[nearestRef].gameObject;
-            //Boid targetBoid = targetGO.GetComponent<Boid>();
-            //owner.GetComponent<StateMachine>().ChangeState(new AttackingState(targetGO));
         }
 
 
@@ -78,6 +78,8 @@ public class SearchState : State
     public override void Exit()
     {
         pf.enabled = false;
+
+        //Object.Destroy(pf);
     }
 }
 

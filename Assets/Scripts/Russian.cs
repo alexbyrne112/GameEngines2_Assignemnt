@@ -6,8 +6,8 @@ public class Russian : MonoBehaviour
 {
     public float health = 100;
     public int bulletDamage = 10;
+    public int missileDamage = 100;
     public float deathRotationSpeed = 150;
-    public bool dead = false;
     Rigidbody rb;
 
 
@@ -22,24 +22,10 @@ public class Russian : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (health == 0f)
+        if (health <= 0f)
         {
-            dead = true;
-            rb.useGravity = true;
-            Boid b = this.gameObject.GetComponent<Boid>();
-            Component[] steeringforces = GetComponents(typeof(SteeringBehaviour));
-            foreach (MigMove sf in steeringforces)
-            {
-                b.behaviours.Remove(sf);
-            }
-
-
-        }
-        if (dead == true)
-        {
-            this.transform.Rotate(Vector3.up, Time.deltaTime * deathRotationSpeed * deathRotationSpeed);
-            Instantiate(ExplosionEffect, this.transform.position, this.transform.rotation);
-
+            PlaneDeath();
+            StartCoroutine(Dead());
         }
     }
 
@@ -51,5 +37,32 @@ public class Russian : MonoBehaviour
             Debug.Log("Hit");
             Destroy(other.gameObject);
         }
+        else if(other.gameObject.CompareTag("Missile"))
+        {
+            health = health - missileDamage;
+            Debug.Log("Hit");
+            Destroy(other.gameObject);
+        }
+    }
+
+    private void PlaneDeath()
+    {
+        rb.useGravity = true;
+        Boid b = this.gameObject.GetComponent<Boid>();
+        Component[] steeringforces = GetComponents(typeof(SteeringBehaviour));
+        foreach (MigMove sf in steeringforces)
+        {
+            Object.Destroy(sf);
+            b.behaviours.Remove(sf);
+        }
+        transform.Rotate(Vector3.up, Time.deltaTime * deathRotationSpeed);
+        Instantiate(ExplosionEffect, transform.position, transform.rotation);
+    }
+
+    private IEnumerator Dead()
+    {
+        yield return new WaitForSeconds(5f);
+        Destroy(this.gameObject);
+        StopCoroutine(Dead());
     }
 }

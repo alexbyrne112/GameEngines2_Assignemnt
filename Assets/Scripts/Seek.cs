@@ -1,42 +1,19 @@
-﻿using System;
+﻿using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using UnityEngine;
 
-public class Seek : SteeringBehaviour
+public class Seek : MonoBehaviour
 {
-    public GameObject targetGO;
-    public Vector3 target = Vector3.zero;
+    public GameObject missileTarget;
+    public Rigidbody missileRB;
 
-    public Seek(GameObject targetGO)
-    {
-        this.targetGO = targetGO;
-    }
+    public float rotate;
+    public float velocity;
 
-    public void OnDrawGizmos()
+    private void FixedUpdate()
     {
-        if (isActiveAndEnabled && Application.isPlaying)
-        {
-            Gizmos.color = Color.cyan;
-            if (targetGO != null)
-            {
-                target = targetGO.transform.position;
-            }
-            Gizmos.DrawLine(transform.position, target);
-        }
-    }
-
-    public override Vector3 Calculate()
-    {
-        return boid.SeekForce(target);
-    }
-
-    public void Update()
-    {
-        if (targetGO!= null)
-        {
-            target = targetGO.transform.position;
-        }
+        missileRB.velocity = transform.forward * velocity;
+        var missileRotation = Quaternion.LookRotation(missileTarget.transform.position - transform.position);
+        missileRB.MoveRotation(Quaternion.RotateTowards(transform.rotation, missileRotation, rotate));
     }
 }

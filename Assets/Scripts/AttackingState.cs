@@ -9,8 +9,6 @@ public class AttackingState : State
     Persue p;
     American1 american1;
     Boid b;
-    Boid missileBoid;
-    public MonoBehaviour monoB;
 
     public AttackingState(GameObject target)
     {
@@ -27,38 +25,37 @@ public class AttackingState : State
         p.weight = 2;
         b.behaviours.Add(p);
         american1 = owner.GetComponent<American1>();
+        american1.attack = true;
+        american1.missileCount = 1;
+        american1.attackTarget = target;
         
-        //monoB.StartCoroutine(FireMissile());
-
-    }
+     }
     public override void Think()
     {
         float enemyHealth = target.GetComponent<Russian>().health;
-        Vector3 bulletFire = owner.transform.position + owner.transform.forward;
-        GameObject bullet = Object.Instantiate(american1.bulletFromPrefab, bulletFire, owner.transform.rotation);
-        if(enemyHealth == 0)
+        Vector3 toTarget = (target.transform.position - owner.transform.position).normalized;
+
+        //Dot Product for defend or attack state 
+        if (Vector3.Dot(toTarget, owner.transform.forward) >0.995f)
         {
-            //owner.GetComponent<StateMachine>().ChangeState(new SearchState());
+            Vector3 bulletFire = owner.transform.position + owner.transform.forward;
+            GameObject bullet = Object.Instantiate(american1.bulletFromPrefab, bulletFire, owner.transform.rotation);
+        }
+        if(enemyHealth <= 0)
+        {
+            Object.Destroy(owner.GetComponent<Persue>());
+            Object.Destroy(target.GetComponent<Boid>());
+            b.behaviours.Remove(p);
+            american1.attack = false;
             owner.GetComponent<StateMachine>().RevertToPreviousState();
         }
-        Vector3 MissileFire = owner.transform.position - owner.transform.up * 2;
-        GameObject Missile = Object.Instantiate(american1.missileFromPrefab, MissileFire, owner.transform.rotation);
-        missileBoid = Missile.GetComponent<Boid>();
-        Seek missileSeek = Missile.GetComponent<Seek>();
-        missileSeek.targetGO = target;
-        missileBoid.behaviours.Add(missileSeek);
     }
 
     public override void Exit()
     {
+        Object.Destroy(owner.GetComponent<Persue>());
+        Object.Destroy(target.GetComponent<Boid>());
         b.behaviours.Remove(p);
-    }
-
-    private IEnumerator FireMissile()
-    {
-        yield return new WaitForSeconds(10f);
-        Vector3 MissileFire = owner.transform.position - owner.transform.up * 2;
-        GameObject Missile = Object.Instantiate(american1.missileFromPrefab, MissileFire, owner.transform.rotation);
-        Missile.GetComponent<Seek>().targetGO = target;
+        american1.attack = false;
     }
 }
