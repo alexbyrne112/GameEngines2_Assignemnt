@@ -10,6 +10,8 @@ public class American1 : MonoBehaviour
     public string side;
     public GameObject ally;
 
+    public float EnemyHealthLife;
+
     public bool attack = false;
     public GameObject attackTarget;
     public int missileCount = 1;
@@ -27,6 +29,12 @@ public class American1 : MonoBehaviour
         {
             StartCoroutine(FireMissile());
             missileCount = 0;
+        }
+        //EnemyHealthLife = GameObject.FindGameObjectWithTag("Russian").GetComponent<Russian>().health;
+        GameObject GO = GameObject.FindGameObjectWithTag("Russian");
+        if(GO != null)
+        {
+            EnemyHealthLife = GO.GetComponent<Russian>().health;
         }
     }
 

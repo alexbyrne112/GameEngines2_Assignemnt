@@ -4,12 +4,12 @@ using UnityEngine;
 
 public class SearchState : State
 {
-    private Collider[] colliders;
+    public Collider[] colliders;
     American1 american1;
     Path patrolPath;
     //Boid b;
     PathFollow pf;
-    
+
     public override void Enter()
     {
         if (owner.gameObject.GetComponent<PathFollow>() != null)
@@ -23,22 +23,22 @@ public class SearchState : State
             pf.path = patrolPath;
         }
         american1 = owner.GetComponent<American1>();
-        
     }
     public override void Think()
     {
         //Overlap Shpere for detecting other planes
-        colliders = Physics.OverlapSphere(owner.transform.position, 5000);
+        colliders = Physics.OverlapSphere(owner.transform.position, 500);
         Transform nearest = null;
         int nearestRef = 0;
         string collSide;
         float nearDist = 62500f;
-        if(0 < colliders.Length)
+        Debug.Log(colliders.Length);
+        if (0 < colliders.Length)
         {
-            for(int i = 0; i < colliders.Length; i++)
+            for (int i = 0; i < colliders.Length; i++)
             {
                 collSide = colliders[i].gameObject.tag;
-                if (collSide != american1.side)
+                if (collSide != american1.side && collSide != "Wall")
                 {
                     float thisDist = (owner.transform.position - colliders[i].transform.position).sqrMagnitude;
                     if (thisDist < nearDist)
@@ -56,17 +56,16 @@ public class SearchState : State
             //Dot Product for defend or attack state check if infront
             Vector3 toTarget = (targetGO.transform.position - owner.transform.position).normalized;
 
-            Debug.Log(Vector3.Dot(toTarget, owner.transform.forward));
             if (Vector3.Dot(toTarget, owner.transform.forward) > 0)
             {
-                if(targetGO.GetComponent<Russian>().health > 0)
+                if (american1.EnemyHealthLife > 0)
                 {
                     owner.GetComponent<StateMachine>().ChangeState(new AttackingState(targetGO));
                 }
             }
             else
             {
-                if (targetGO.GetComponent<Russian>().health > 0)
+                if (american1.EnemyHealthLife > 0)
                 {
                     owner.GetComponent<StateMachine>().ChangeState(new DefendingState());
                 }

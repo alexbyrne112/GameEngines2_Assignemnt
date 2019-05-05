@@ -41,7 +41,7 @@ public class DefendingState : State
     public override void Think()
     {
         //Overlap Shpere for detecting other planes
-        colliders = Physics.OverlapSphere(owner.transform.position, 5000);
+        colliders = Physics.OverlapSphere(owner.transform.position, 500);
         Transform nearest = null;
         int nearestRef = 0;
         float nearDist = 62500f;

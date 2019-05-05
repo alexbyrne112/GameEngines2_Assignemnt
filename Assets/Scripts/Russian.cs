@@ -10,7 +10,6 @@ public class Russian : MonoBehaviour
     public float deathRotationSpeed = 150;
     Rigidbody rb;
 
-
     public GameObject ExplosionEffect;
 
     // Start is called before the first frame update
@@ -40,7 +39,6 @@ public class Russian : MonoBehaviour
         else if(other.gameObject.CompareTag("Missile"))
         {
             health = health - missileDamage;
-            Debug.Log("Hit");
             Destroy(other.gameObject);
         }
     }
@@ -52,7 +50,7 @@ public class Russian : MonoBehaviour
         Component[] steeringforces = GetComponents(typeof(SteeringBehaviour));
         foreach (MigMove sf in steeringforces)
         {
-            Object.Destroy(sf);
+            Destroy(sf);
             b.behaviours.Remove(sf);
         }
         transform.Rotate(Vector3.up, Time.deltaTime * deathRotationSpeed);

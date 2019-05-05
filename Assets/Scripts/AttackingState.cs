@@ -14,6 +14,7 @@ public class AttackingState : State
     {
         //this.searchLayer = searchLayer;
         this.target = target;
+        Debug.Log(target.tag);
     }
 
     public override void Enter()
@@ -43,9 +44,9 @@ public class AttackingState : State
         }
         if(enemyHealth <= 0)
         {
+            b.behaviours.Remove(p);
             Object.Destroy(owner.GetComponent<Persue>());
             Object.Destroy(target.GetComponent<Boid>());
-            b.behaviours.Remove(p);
             american1.attack = false;
             owner.GetComponent<StateMachine>().RevertToPreviousState();
         }

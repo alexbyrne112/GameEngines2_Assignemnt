@@ -5,7 +5,7 @@ using UnityEngine;
 public class American2 : MonoBehaviour
 {
     public string side;
-    public Collider[] colliders;
+    private Collider[] colliders;
 
     // Start is called before the first frame update
     void Start()
