@@ -14,10 +14,12 @@ public class Russian : MonoBehaviour
     public GameObject missileFromPrefab;
 
     public GameObject ExplosionEffect;
+    public AudioSource explode;
 
     // Start is called before the first frame update
     void Start()
     {
+        explode = GetComponent<AudioSource>();
         rb = this.gameObject.GetComponent<Rigidbody>();
         GetComponent<StateMachine>().ChangeState(new WanderState());
         StartCoroutine(BarrelRoll());
@@ -51,15 +53,19 @@ public class Russian : MonoBehaviour
 
     private void PlaneDeath()
     {
+        bool played = false;
+        if(played == false)
+        {
+            explode.Play();
+            played = true;
+        }
         rb.useGravity = true;
         Boid b = this.gameObject.GetComponent<Boid>();
         transform.Rotate(Vector3.up, Time.deltaTime * deathRotationSpeed);
         Instantiate(ExplosionEffect, transform.position, transform.rotation);
         /*Component[] steeringforces = GetComponents(typeof(SteeringBehaviour));
-        foreach (MigMove sf in steeringforces)
+        foreach (SteeringBehaviour sf in steeringforces)
         {
-            Debug.Log("Coo");
-            Destroy(sf);
             b.behaviours.Remove(sf);
         }*/
     }

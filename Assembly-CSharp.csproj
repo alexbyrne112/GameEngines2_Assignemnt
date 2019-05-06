@@ -79,6 +79,7 @@
     <Compile Include="Assets\Scripts\AttackingState.cs" />
     <Compile Include="Assets\Scripts\Boid.cs" />
     <Compile Include="Assets\Scripts\BulletScript.cs" />
+    <Compile Include="Assets\Scripts\CameraChanger.cs" />
     <Compile Include="Assets\Scripts\CohesionScript.cs" />
     <Compile Include="Assets\Scripts\DefendingState.cs" />
     <Compile Include="Assets\Scripts\EvadeState.cs" />

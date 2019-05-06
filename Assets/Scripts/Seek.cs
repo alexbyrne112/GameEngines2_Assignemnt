@@ -12,9 +12,12 @@ public class Seek : MonoBehaviour
 
     private void FixedUpdate()
     {
-        missileRB.velocity = transform.forward * velocity;
-        var missileRotation = Quaternion.LookRotation(missileTarget.transform.position - transform.position);
-        missileRB.MoveRotation(Quaternion.RotateTowards(transform.rotation, missileRotation, rotate));
-        Destroy(this.gameObject, 5);
+        if(missileTarget != null)
+        {
+            missileRB.velocity = transform.forward * velocity;
+            var missileRotation = Quaternion.LookRotation(missileTarget.transform.position - transform.position);
+            missileRB.MoveRotation(Quaternion.RotateTowards(transform.rotation, missileRotation, rotate));
+            Destroy(this.gameObject, 5);
+        }
     }
 }

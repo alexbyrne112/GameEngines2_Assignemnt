@@ -35,6 +35,10 @@ public class RussianHuntState : State
             Vector3 bulletFire = owner.transform.position + owner.transform.forward;
             GameObject bullet = Object.Instantiate(russian.bulletFromPrefab, bulletFire, owner.transform.rotation);
         }
+        else if (Vector3.Dot(toTarget, owner.transform.forward) <= 0)
+        {
+            owner.GetComponent<StateMachine>().ChangeState(new WanderState());
+        }
     }
 
     public override void Exit()

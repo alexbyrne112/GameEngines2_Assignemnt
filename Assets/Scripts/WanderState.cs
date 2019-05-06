@@ -64,8 +64,10 @@ public class WanderState : State
             //Dot Product for defend or attack state check if infront
             Vector3 toTarget = (targetGO.transform.position - owner.transform.position).normalized;
 
-            if (Vector3.Dot(toTarget, owner.transform.forward) > 0.3)
+            if (Vector3.Dot(toTarget, owner.transform.forward) > 0.7)
             {
+                b.behaviours.Remove(mm1);
+                b.behaviours.Remove(mm2);
                 owner.GetComponent<StateMachine>().ChangeState(new RussianHuntState(targetGO));
             }
         }

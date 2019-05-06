@@ -43,10 +43,8 @@ public class AttackingState : State
         }
         if(enemyHealth <= 0)
         {
-            owner.GetComponent<ObstacleAvoidance>().enabled = false;
             b.behaviours.Remove(p);
             Object.Destroy(owner.GetComponent<Persue>());
-            Object.Destroy(target.GetComponent<Boid>());
             american1.attack = false;
             owner.GetComponent<StateMachine>().RevertToPreviousState();
         }
@@ -55,7 +53,6 @@ public class AttackingState : State
     public override void Exit()
     {
         Object.Destroy(owner.GetComponent<Persue>());
-        Object.Destroy(target.GetComponent<Boid>());
         b.behaviours.Remove(p);
         american1.attack = false;
     }

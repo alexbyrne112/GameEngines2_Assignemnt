@@ -16,11 +16,9 @@ public class Spawner : MonoBehaviour
 
     public void SpawnPlane()
     {
-        Debug.Log("1");
         if(GameObject.Find("Su-34") == null && GameObject.Find("Su-34 1(Clone)") == null)
         {
-            Debug.Log("1");
-            spawnLoaction = new Vector3(Random.Range(-350, 350), 0, Random.Range(-350, 350));
+            spawnLoaction = new Vector3(Random.Range(-350, 350), 0, 0);
             Instantiate(RussianPrefab, spawnLoaction, Quaternion.identity);
             if (StopSpawning)
             {
