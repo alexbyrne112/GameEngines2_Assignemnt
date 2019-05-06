@@ -15,14 +15,14 @@ public class DefendingState : State
     {
         b = owner.GetComponent<Boid>();
         mm1 = owner.gameObject.AddComponent<MigMove>();
-        mm1.weight = 2f;
+        mm1.weight = 0.5f;
         mm1.frequency = 0.05f;
         mm1.radius = 40;
         mm1.amplitude = 180;
         mm1.distance = 60;
         mm1.axis = MigMove.Axis.Horizontal;
         mm2 = owner.gameObject.AddComponent<MigMove>();
-        mm2.weight = 2f;
+        mm2.weight = 0.5f;
         mm2.frequency = 0.05f;
         mm2.radius = 40;
         mm2.amplitude = 180;
@@ -67,18 +67,20 @@ public class DefendingState : State
             Vector3 toTarget = (targetGO.transform.position - owner.transform.position).normalized;
 
             //Dot Product for defend or attack state 
-            if (Vector3.Dot(toTarget, owner.transform.forward) > 0)
+            if (Vector3.Dot(toTarget, owner.transform.forward) > 0.2)
             {
-                if (targetGO.GetComponent<Russian>().health > 0)
+                if (owner.GetComponent<American1>().EnemyHealthLife < 0)
                 {
                     owner.GetComponent<StateMachine>().RevertToPreviousState();
                 }
             }
         }
-        else
+
+        if (owner.GetComponent<American1>().EnemyHealthLife <= 0)
         {
             owner.GetComponent<StateMachine>().RevertToPreviousState();
         }
+
     }
     public override void Exit()
     {

@@ -1,0 +1,13 @@
+fileFormatVersion: 2
+guid: 34fef4069203dae4997f42ca3d5fcf44
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - RussianPrefab: {fileID: 8234424176064585283, guid: 038f020b3400d4146a0e3cbaf91fc624,
+      type: 3}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

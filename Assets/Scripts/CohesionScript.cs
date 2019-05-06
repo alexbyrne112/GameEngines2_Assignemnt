@@ -17,17 +17,9 @@ public class CohesionScript : SteeringBehaviour
     // Update is called once per frame
     public override Vector3 Calculate()
     {
-         cohesionVector.x += allyBoid.transform.position.x;
-         cohesionVector.y += allyBoid.transform.position.y;
-         cohesionVector.z += allyBoid.transform.position.z;
-
-         //Divide by number of neighbours but in this case its 1 neighbour so no point
-         //Also recompute for the direction of mass rather then the center of mass itself
-         cohesionVector = new Vector3(cohesionVector.x - transform.position.x,
-             cohesionVector.y - transform.position.y,
-             cohesionVector.z - transform.position.z);
-        Vector3 steer = cohesionVector.normalized * 450;
-
-        return boid.ArriveForce(steer);
+        Vector3 direction = ally.transform.position - transform.position;
+        Vector3 desiredPos = direction.normalized * boid.maxSpeed;
+        cohesionVector = desiredPos - boid.velocity;
+        return cohesionVector;
     }
 }

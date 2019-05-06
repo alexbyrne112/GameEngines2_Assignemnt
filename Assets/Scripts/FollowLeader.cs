@@ -18,7 +18,7 @@ public class FollowLeader  : SteeringBehaviour
 
     public override Vector3 Calculate()
     {
-        offset = leaderBoid.transform.position + new Vector3(-20,0,-20);
+        offset = leaderBoid.transform.position + new Vector3(-40,0,-40);
 
         float dist = Vector3.Distance(offset, transform.position);
         float time = dist / this.boid.maxSpeed;

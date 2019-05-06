@@ -14,7 +14,6 @@ public class AttackingState : State
     {
         //this.searchLayer = searchLayer;
         this.target = target;
-        Debug.Log(target.tag);
     }
 
     public override void Enter()
@@ -23,7 +22,7 @@ public class AttackingState : State
         b = owner.GetComponent<Boid>();
         p = owner.gameObject.AddComponent<Persue>();
         p.targetGO = target;
-        p.weight = 2;
+        p.weight = 1;
         b.behaviours.Add(p);
         american1 = owner.GetComponent<American1>();
         american1.attack = true;
@@ -44,6 +43,7 @@ public class AttackingState : State
         }
         if(enemyHealth <= 0)
         {
+            owner.GetComponent<ObstacleAvoidance>().enabled = false;
             b.behaviours.Remove(p);
             Object.Destroy(owner.GetComponent<Persue>());
             Object.Destroy(target.GetComponent<Boid>());

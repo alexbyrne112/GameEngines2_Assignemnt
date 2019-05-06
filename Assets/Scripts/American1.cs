@@ -40,7 +40,7 @@ public class American1 : MonoBehaviour
 
     private IEnumerator FireMissile()
     {
-        yield return new WaitForSeconds(5f);
+        yield return new WaitForSeconds(10f);
         Vector3 MissileFire = this.transform.position - this.transform.up * 2;
         GameObject Missile = Object.Instantiate(missileFromPrefab, MissileFire, this.transform.rotation);
         Seek missileSeek = Missile.GetComponent<Seek>();

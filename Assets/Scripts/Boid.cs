@@ -42,7 +42,7 @@ public class Boid : MonoBehaviour
         return desired - velocity;
     }
 
-    public Vector3 ArriveForce(Vector3 target, float slowingDistance = 25.0f)
+    public Vector3 ArriveForce(Vector3 target, float slowingDistance = 50.0f)
     {
         Vector3 toTarget = target - transform.position;
 
@@ -102,7 +102,6 @@ public class Boid : MonoBehaviour
 
     System.Collections.IEnumerator SteeringForces()
     {
-        Debug.Log("hello");
         SteeringBehaviour[] behaviours = GetComponents<SteeringBehaviour>();
 
         foreach (SteeringBehaviour b in behaviours)

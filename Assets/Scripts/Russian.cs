@@ -9,6 +9,9 @@ public class Russian : MonoBehaviour
     public int missileDamage = 100;
     public float deathRotationSpeed = 150;
     Rigidbody rb;
+    public string side = "Russian";
+    public GameObject bulletFromPrefab;
+    public GameObject missileFromPrefab;
 
     public GameObject ExplosionEffect;
 
@@ -16,6 +19,8 @@ public class Russian : MonoBehaviour
     void Start()
     {
         rb = this.gameObject.GetComponent<Rigidbody>();
+        GetComponent<StateMachine>().ChangeState(new WanderState());
+        StartCoroutine(BarrelRoll());
     }
 
     // Update is called once per frame
@@ -23,8 +28,9 @@ public class Russian : MonoBehaviour
     {
         if (health <= 0f)
         {
-            PlaneDeath();
+
             StartCoroutine(Dead());
+            PlaneDeath();
         }
     }
 
@@ -47,20 +53,41 @@ public class Russian : MonoBehaviour
     {
         rb.useGravity = true;
         Boid b = this.gameObject.GetComponent<Boid>();
-        Component[] steeringforces = GetComponents(typeof(SteeringBehaviour));
-        foreach (MigMove sf in steeringforces)
-        {
-            Destroy(sf);
-            b.behaviours.Remove(sf);
-        }
         transform.Rotate(Vector3.up, Time.deltaTime * deathRotationSpeed);
         Instantiate(ExplosionEffect, transform.position, transform.rotation);
+        /*Component[] steeringforces = GetComponents(typeof(SteeringBehaviour));
+        foreach (MigMove sf in steeringforces)
+        {
+            Debug.Log("Coo");
+            Destroy(sf);
+            b.behaviours.Remove(sf);
+        }*/
     }
 
     private IEnumerator Dead()
     {
-        yield return new WaitForSeconds(5f);
+        yield return new WaitForSeconds(3f);
         Destroy(this.gameObject);
         StopCoroutine(Dead());
+    }
+    
+    private IEnumerator BarrelRoll()
+    {
+        
+        yield return new WaitForSeconds(2f);
+        /*float rollDirection = Random.Range(1, 2);
+        Debug.Log("Roll");
+        if(rollDirection >= 1.5)
+        {
+            Quaternion newrotation = Quaternion.Euler(transform.rotation.x, transform.rotation.y, transform.rotation.z + 350);
+            Quaternion roll = transform.rotation ;
+            transform.rotation = Quaternion.Slerp(transform.rotation, newrotation, Time.deltaTime * 200);
+        }
+        else if(rollDirection < 1.5)
+        {
+            Quaternion newrotation = Quaternion.Euler(transform.rotation.x, transform.rotation.y, transform.rotation.z + -350);
+            Quaternion roll = transform.rotation;
+            transform.rotation = Quaternion.Slerp(transform.rotation, newrotation, Time.deltaTime * 200);
+        }*/
     }
 }

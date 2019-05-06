@@ -26,19 +26,19 @@ public class SearchState : State
     }
     public override void Think()
     {
+        
         //Overlap Shpere for detecting other planes
         colliders = Physics.OverlapSphere(owner.transform.position, 500);
         Transform nearest = null;
         int nearestRef = 0;
         string collSide;
         float nearDist = 62500f;
-        Debug.Log(colliders.Length);
         if (0 < colliders.Length)
         {
             for (int i = 0; i < colliders.Length; i++)
             {
                 collSide = colliders[i].gameObject.tag;
-                if (collSide != american1.side && collSide != "Wall")
+                if (collSide != american1.side && collSide != "Wall" && collSide != "Bullet")
                 {
                     float thisDist = (owner.transform.position - colliders[i].transform.position).sqrMagnitude;
                     if (thisDist < nearDist)
